@@ -58,6 +58,7 @@ export default function Layout({ page, title, children }) {
             <div className="t3">Crime Intelligence</div>
           </div>
         </div>
+        <div className="nav-label">Dashboard</div>
         <nav className="nav">
           {NAV.map((n) => (
             <a key={n.id} href={`#/${n.id}`} className={page === n.id || (page === 'offender' && n.id === 'offenders') ? 'active' : ''}>
@@ -82,7 +83,6 @@ export default function Layout({ page, title, children }) {
           <span className="demo-badge" title="All names, cases and figures are generated sample data">SAMPLE DATA · DEMO</span>
           <span className="spacer" />
           <GlobalSearch />
-          <span className="stripe" />
         </header>
         {children}
       </div>

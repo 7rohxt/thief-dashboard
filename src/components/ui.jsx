@@ -2,12 +2,12 @@ import { TYPE_BY_ID, OFFENDER_STATUSES, CASE_STATUSES } from '../data/constants.
 import { photoOf } from '../lib/photos.js'
 import { go } from '../lib/router.js'
 
-const TONES = {
-  good: { c: 'var(--good)', icon: 'check' },
-  warning: { c: 'var(--warning)', icon: 'clock' },
-  serious: { c: 'var(--serious)', icon: 'eye' },
-  critical: { c: 'var(--critical)', icon: 'alert' },
-  neutral: { c: 'var(--neutral)', icon: 'gavel' },
+export const TONES = {
+  good: { c: 'var(--good)', bg: 'var(--good-bg)', icon: 'check' },
+  warning: { c: 'var(--warning)', bg: 'var(--warning-bg)', icon: 'clock' },
+  serious: { c: 'var(--serious)', bg: 'var(--serious-bg)', icon: 'eye' },
+  critical: { c: 'var(--critical)', bg: 'var(--critical-bg)', icon: 'alert' },
+  neutral: { c: 'var(--neutral)', bg: 'var(--neutral-bg)', icon: 'gavel' },
 }
 
 export function Icon({ name, size = 16, style }) {
@@ -51,17 +51,19 @@ export function Card({ title, hint, right, children, className = '', flush }) {
   )
 }
 
-export function Kpi({ label, value, delta, deltaGoodWhenDown = true, color = 'var(--accent)', icon }) {
+export function Kpi({ label, value, delta, deltaGoodWhenDown = true, color = '#2a78d6', icon }) {
   let d = null
   if (delta != null && isFinite(delta)) {
     const up = delta > 0
     const good = deltaGoodWhenDown ? !up : up
-    d = <><b className={good ? 'down-good' : 'up-bad'}>{up ? '▲' : '▼'} {Math.abs(delta * 100).toFixed(0)}%</b> vs previous period</>
+    d = <><b className={good ? 'down-good' : 'up-bad'}>{up ? '↑' : '↓'} {Math.abs(delta * 100).toFixed(0)}%</b> vs prev. period</>
   }
   return (
     <div className="card kpi">
-      <span className="bar" style={{ background: color }} />
-      <div className="label">{icon && <Icon name={icon} size={14} />}{label}</div>
+      <div className="top">
+        <span className="label">{label}</span>
+        {icon && <span className="ico" style={{ background: `color-mix(in srgb, ${color} 12%, white)`, color }}><Icon name={icon} size={16} /></span>}
+      </div>
       <div className="value">{value}</div>
       <div className="delta">{d ?? ' '}</div>
     </div>
@@ -73,8 +75,8 @@ export function StatusBadge({ status, kind = 'offender' }) {
   if (!s) return null
   const t = TONES[s.tone]
   return (
-    <span className="badge" style={{ background: `color-mix(in srgb, ${t.c} 16%, transparent)` }}>
-      <span style={{ color: t.c, display: 'flex' }}><Icon name={t.icon} size={12} /></span>
+    <span className="badge" style={{ background: t.bg, color: t.c }}>
+      <span style={{ display: 'flex' }}><Icon name={t.icon} size={12} /></span>
       {s.label}
     </span>
   )
@@ -149,8 +151,8 @@ export function Seg({ options, value, onChange }) {
 }
 
 export function RiskPill({ risk }) {
-  const color = risk >= 75 ? '#d03b3b' : risk >= 50 ? '#c4592f' : risk >= 25 ? '#9a7400' : '#3a7d44'
-  return <span className="badge" style={{ background: color, color: '#fff', padding: '2px 8px' }}>Risk {risk}</span>
+  const t = risk >= 75 ? TONES.critical : risk >= 50 ? TONES.serious : risk >= 25 ? TONES.warning : TONES.good
+  return <span className="badge" style={{ background: t.bg, color: t.c, padding: '2px 9px', boxShadow: `inset 0 0 0 1px color-mix(in srgb, ${t.c} 22%, transparent)` }}>Risk {risk}</span>
 }
 
 export const openOffender = (id) => go(`offender/${id}`)
