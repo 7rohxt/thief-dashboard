@@ -1,8 +1,11 @@
-// Reference lists for the demo dataset. Beats are approximate points around
+// Reference lists for the demo dataset. Beats are approximate points inside
 // Pulianthope (13.0982 N, 80.2683 E) used only to place sample incidents.
 
 export const TODAY = new Date('2026-09-29T11:00:00+05:30')
-export const MAP_CENTER = [13.1022, 80.2635]
+export const MAP_CENTER = [13.1012, 80.2665]
+
+// Approximate Pulianthope locality outline (traced for the demo map).
+export const PULIANTHOPE_BOUNDARY = [[13.10954, 80.25942], [13.11067, 80.27019], [13.11028, 80.27064], [13.10853, 80.27162], [13.10657, 80.27252], [13.10548, 80.27229], [13.10426, 80.27171], [13.10287, 80.27185], [13.09938, 80.27189], [13.09676, 80.27207], [13.09319, 80.27319], [13.09184, 80.27086], [13.09184, 80.26948], [13.09319, 80.26872], [13.09345, 80.26805], [13.09358, 80.26715], [13.09567, 80.26425], [13.09676, 80.26447], [13.09807, 80.2647], [13.09903, 80.26545], [13.10191, 80.26537], [13.10221, 80.26224], [13.10252, 80.26027], [13.10374, 80.26031], [13.10766, 80.26036]]
 
 // Fixed categorical order (validated for the dark surface). Colour follows the
 // crime type everywhere in the app, never its rank.
@@ -28,19 +31,19 @@ export const STATIONS = ['Pulianthope', 'Basin Bridge', 'Vyasarpadi', 'Otteri']
 
 // affinity: relative likelihood of each crime type occurring on the beat
 export const BEATS = [
-  { id: 'phr', name: 'Pulianthope High Road', station: 'Pulianthope', lat: 13.0990, lng: 80.2680, affinity: { chain: 3, mobile: 3, robbery: 1.5, pickpocket: 2 } },
-  { id: 'adt', name: 'Aadu Thotti (Slaughterhouse Rd)', station: 'Pulianthope', lat: 13.1006, lng: 80.2658, affinity: { robbery: 2.5, extortion: 3, vehicle: 1.5 } },
-  { id: 'ngd', name: 'Narayanasamy Garden', station: 'Pulianthope', lat: 13.0968, lng: 80.2712, affinity: { hb: 3, vehicle: 2, chain: 1.5 } },
-  { id: 'bbr', name: 'Basin Bridge Road', station: 'Basin Bridge', lat: 13.1032, lng: 80.2702, affinity: { vehicle: 2.5, mobile: 2, robbery: 2 } },
-  { id: 'bbs', name: 'Basin Bridge Rly Station', station: 'Basin Bridge', lat: 13.1048, lng: 80.2672, affinity: { pickpocket: 3.5, mobile: 3, vehicle: 2 } },
-  { id: 'bny', name: 'Binny Mills / Strahans Road', station: 'Pulianthope', lat: 13.0952, lng: 80.2638, affinity: { chain: 2, robbery: 2, hb: 1 } },
-  { id: 'kmg', name: 'K.M. Garden', station: 'Pulianthope', lat: 13.1016, lng: 80.2612, affinity: { hb: 3, chain: 2 } },
-  { id: 'dac', name: 'Dr. Ambedkar College Road', station: 'Vyasarpadi', lat: 13.1060, lng: 80.2634, affinity: { chain: 3.5, mobile: 2 } },
-  { id: 'dml', name: 'Demellows Road', station: 'Vyasarpadi', lat: 13.1082, lng: 80.2598, affinity: { vehicle: 2, hb: 2, chain: 1.5 } },
-  { id: 'vjs', name: 'Vyasarpadi Jeeva Station', station: 'Vyasarpadi', lat: 13.1118, lng: 80.2603, affinity: { pickpocket: 2.5, mobile: 2.5, chain: 1.5 } },
-  { id: 'ptm', name: 'Pattalam Market', station: 'Otteri', lat: 13.0962, lng: 80.2588, affinity: { pickpocket: 3, chain: 2.5, mobile: 2.5 } },
-  { id: 'onb', name: 'Otteri Nullah Bridge', station: 'Otteri', lat: 13.0925, lng: 80.2558, affinity: { robbery: 3, vehicle: 2 } },
-  { id: 'pbr', name: 'Perambur Barracks Road', station: 'Otteri', lat: 13.0932, lng: 80.2620, affinity: { chain: 3, vehicle: 1.5, hb: 1.5 } },
+  { id: 'phr', name: 'Pulianthope High Road', station: 'Pulianthope', lat: 13.09916, lng: 80.26805, affinity: { chain: 3, mobile: 3, robbery: 1.5, pickpocket: 2 } },
+  { id: 'adt', name: 'Aadu Thotti (Slaughterhouse Rd)', station: 'Pulianthope', lat: 13.10287, lng: 80.26961, affinity: { robbery: 2.5, extortion: 3, vehicle: 1.5 } },
+  { id: 'ngd', name: 'Narayanasamy Garden', station: 'Pulianthope', lat: 13.09589, lng: 80.27051, affinity: { hb: 3, vehicle: 2, chain: 1.5 } },
+  { id: 'bbr', name: 'Basin Bridge Road', station: 'Basin Bridge', lat: 13.10570, lng: 80.27118, affinity: { vehicle: 2.5, mobile: 2, robbery: 2 } },
+  { id: 'bbs', name: 'Basin Bridge Rly Station', station: 'Basin Bridge', lat: 13.10156, lng: 80.27127, affinity: { pickpocket: 3.5, mobile: 3, vehicle: 2 } },
+  { id: 'bny', name: 'Binny Mills / Strahans Road', station: 'Pulianthope', lat: 13.09502, lng: 80.26693, affinity: { chain: 2, robbery: 2, hb: 1 } },
+  { id: 'kmg', name: 'K.M. Garden', station: 'Pulianthope', lat: 13.10483, lng: 80.26291, affinity: { hb: 3, chain: 2 } },
+  { id: 'dac', name: 'Dr. Ambedkar College Road', station: 'Vyasarpadi', lat: 13.10766, lng: 80.26581, affinity: { chain: 3.5, mobile: 2 } },
+  { id: 'dml', name: 'Demellows Road', station: 'Vyasarpadi', lat: 13.10832, lng: 80.26157, affinity: { vehicle: 2, hb: 2, chain: 1.5 } },
+  { id: 'vjs', name: 'Vyasarpadi Jeeva Station', station: 'Vyasarpadi', lat: 13.10941, lng: 80.26358, affinity: { pickpocket: 2.5, mobile: 2.5, chain: 1.5 } },
+  { id: 'ptm', name: 'Pattalam Market', station: 'Otteri', lat: 13.10134, lng: 80.26456, affinity: { pickpocket: 3, chain: 2.5, mobile: 2.5 } },
+  { id: 'onb', name: 'Otteri Nullah Bridge', station: 'Otteri', lat: 13.10548, lng: 80.26805, affinity: { robbery: 3, vehicle: 2 } },
+  { id: 'pbr', name: 'Perambur Barracks Road', station: 'Otteri', lat: 13.09742, lng: 80.26559, affinity: { chain: 3, vehicle: 1.5, hb: 1.5 } },
 ]
 export const BEAT_BY_ID = Object.fromEntries(BEATS.map((b) => [b.id, b]))
 
