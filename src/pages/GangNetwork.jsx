@@ -96,7 +96,7 @@ export default function GangNetwork({ query }) {
                   <image href={photoOf(n.o)} x={n.x - n.r} y={n.y - n.r} width={n.r * 2} height={n.r * 2} clipPath={`url(#clip-${n.id})`} preserveAspectRatio="xMidYMid slice" />
                   {n.o.status === 'absconding' && <circle cx={n.x + n.r * 0.72} cy={n.y - n.r * 0.72} r={5} fill="#d92d20" stroke="#ffffff" strokeWidth={2} />}
                   {(focus ? neighbours.has(n.id) : n.r > 24) && (
-                    <text x={n.x} y={n.y + n.r + 13} textAnchor="middle" fontSize="11" fill="#101828" fontWeight="600" stroke="#ffffff" strokeWidth="4" paintOrder="stroke">{n.o.alias}</text>
+                    <text x={n.x} y={n.y + n.r + 13} textAnchor="middle" fontSize="11" fill="#101828" fontWeight="600" stroke="#ffffff" strokeWidth="4" paintOrder="stroke">{n.o.name}</text>
                   )}
                 </g>
               )
@@ -136,7 +136,7 @@ export default function GangNetwork({ query }) {
                     <div className="small t2" style={{ marginTop: 6 }}>
                       {cases} cases · mostly {top ? TYPE_BY_ID[top].label.toLowerCase() : '—'} · {active} free / at large
                     </div>
-                    {leader && <div className="small muted" style={{ marginTop: 2 }}>Most active: {leader.name} @ {leader.alias} ({leader.caseCount})</div>}
+                    {leader && <div className="small muted" style={{ marginTop: 2 }}>Most active: {leader.name} ({leader.caseCount} cases)</div>}
                   </div>
                 ))}
               </div>

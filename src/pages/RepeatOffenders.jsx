@@ -34,7 +34,7 @@ export default function RepeatOffenders() {
   const top10Ids = new Set(top10.map((r) => r.o.id))
   const byTop10 = detected.filter((c) => c.accused.some((a) => top10Ids.has(a))).length
   const escalating = rows.filter((r) => r.last12 >= 3 && r.last12 > r.prev12 * 1.3).sort((a, b) => (b.last12 - b.prev12) - (a.last12 - a.prev12)).slice(0, 6)
-  const pareto = rows.slice(0, 25).map((r) => ({ label: r.o.alias, value: r.n, id: r.o.id }))
+  const pareto = rows.slice(0, 25).map((r) => ({ label: r.o.name, value: r.n, id: r.o.id }))
   const label = type === 'all' ? 'all crimes' : TYPE_BY_ID[type].label.toLowerCase()
 
   return (
@@ -75,7 +75,7 @@ export default function RepeatOffenders() {
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={pareto} margin={{ top: 8, right: 8, left: -18, bottom: 0 }} barCategoryGap="16%">
               <CartesianGrid vertical={false} stroke="var(--grid)" />
-              <XAxis dataKey="label" tickLine={false} axisLine={{ stroke: 'var(--axis)' }} interval={0} angle={-45} textAnchor="end" height={50} />
+              <XAxis dataKey="label" tickLine={false} axisLine={{ stroke: 'var(--axis)' }} interval={0} angle={-45} textAnchor="end" height={72} />
               <YAxis tickLine={false} axisLine={false} allowDecimals={false} />
               <Tooltip cursor={{ fill: 'rgba(16,24,40,0.04)' }} content={<ChartTip valueFmt={(v) => `${v} cases`} />} />
               <Bar dataKey="value" name="Cases" radius={[4, 4, 0, 0]} isAnimationActive={false} onClick={(d) => openOffender(d.id)} style={{ cursor: 'pointer' }}>

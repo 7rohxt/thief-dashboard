@@ -96,7 +96,7 @@ export function OffenderLink({ offender, sub, size = 34 }) {
     <a className="row" href={`#/offender/${offender.id}`} onClick={(e) => e.stopPropagation()}>
       <Avatar offender={offender} size={size} />
       <span className="col" style={{ gap: 0 }}>
-        <span style={{ fontWeight: 600 }}>{offender.name} <span className="muted small">@ {offender.alias}</span></span>
+        <span style={{ fontWeight: 600 }}>{offender.name}</span>
         {sub && <span className="muted small">{sub}</span>}
       </span>
     </a>

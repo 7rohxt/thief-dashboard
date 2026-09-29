@@ -28,7 +28,7 @@ function build() {
   for (const o of db.offenders.filter((x) => x.status === 'absconding')) {
     out.push({
       id: `abs-${o.id}`, kind: 'Absconding', tone: 'critical', icon: 'alert', offender: o.id,
-      title: `${o.name} @ ${o.alias} is absconding${o.nbw ? ' (NBW issued)' : ''}`,
+      title: `${o.name} is absconding${o.nbw ? ' (NBW issued)' : ''}`,
       desc: `${o.caseCount} cases on record, mainly ${TYPE_BY_ID[o.primaryType].label.toLowerCase()}. Last seen around ${BEATS.find((b) => b.id === o.homeBeat).name}.`,
       link: `offender/${o.id}`, sort: 1,
     })
@@ -38,7 +38,7 @@ function build() {
   for (const o of db.offenders.filter((x) => x.status === 'bail' && days(x.statusSince) <= 30 && x.caseCount >= 12)) {
     out.push({
       id: `bail-${o.id}`, kind: 'Released on bail', tone: 'serious', icon: 'eye', offender: o.id,
-      title: `${o.name} @ ${o.alias} released on bail ${plural(days(o.statusSince), 'day')} ago`,
+      title: `${o.name} released on bail ${plural(days(o.statusSince), 'day')} ago`,
       desc: `${o.caseCount} prior cases (${o.typeCounts[o.primaryType] ?? 0} ${TYPE_BY_ID[o.primaryType].label.toLowerCase()}). Condition: ${o.bailCondition}.`,
       link: `offender/${o.id}`, sort: 2,
     })

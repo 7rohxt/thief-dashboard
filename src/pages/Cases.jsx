@@ -86,7 +86,7 @@ export default function Cases({ query }) {
                         {c.accused.map((a) => (
                           <a key={a} href={`#/offender/${a}`} className="row" style={{ gap: 6 }}>
                             <Avatar offender={offenderById[a]} size={22} round />
-                            <span className="small" style={{ whiteSpace: 'nowrap' }}>{offenderById[a].name} <span className="muted">@ {offenderById[a].alias}</span></span>
+                            <span className="small" style={{ whiteSpace: 'nowrap' }}>{offenderById[a].name}</span>
                           </a>
                         ))}
                       </div>

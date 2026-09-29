@@ -121,7 +121,7 @@ export default function Overview({ period, setPeriod }) {
                 <span className="row" style={{ gap: 10, minWidth: 0 }}>
                   <Avatar offender={o} size={34} />
                   <span className="col" style={{ gap: 0, minWidth: 0 }}>
-                    <span className="ellipsis" style={{ fontWeight: 600 }}>{o.name} <span className="muted small" style={{ fontWeight: 400 }}>@ {o.alias}</span></span>
+                    <span className="ellipsis" style={{ fontWeight: 600 }}>{o.name}</span>
                     <span className="muted small">{TYPE_BY_ID[o.primaryType].label} · <b style={{ color: 'var(--text)' }}>{n}</b> cases</span>
                   </span>
                 </span>
@@ -136,7 +136,7 @@ export default function Overview({ period, setPeriod }) {
           <div className="mini-list">
             {repeatChain.slice(0, 3).map(({ o, n }) => (
               <a key={o.id} className="row" href={`#/offender/${o.id}`} style={{ justifyContent: 'space-between' }}>
-                <span className="row" style={{ gap: 8 }}><Avatar offender={o} size={26} round /><span>{o.name} <span className="muted small">@ {o.alias}</span></span></span>
+                <span className="row" style={{ gap: 8 }}><Avatar offender={o} size={26} round /><span>{o.name}</span></span>
                 <span className="small"><b>{n}</b> <span className="muted">snatches</span></span>
               </a>
             ))}
