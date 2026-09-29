@@ -27,6 +27,7 @@ function weighted(items, w) {
 const DAY = 86400000
 const addDays = (d, n) => new Date(d.getTime() + n * DAY)
 
+const EXTRA_ALIASES = ['Soda', 'Karate', 'Mani Bhai', 'Paavai', 'Kottai', 'Thanni']
 const PHOTO_COUNT = 5
 const OFFENDER_COUNT = 64
 const MONTHS = 36
@@ -49,10 +50,12 @@ function makeOffenders() {
     // Pareto-ish activity: a few prolific repeat offenders drive most cases
     const activity = Math.pow(rand(), 1.7) * 6 + 0.5
     const age = int(19, 54)
+    // always draw one random number so the rest of the dataset stays identical
+    const pickAlias = () => { const r = rand(); return aliasPool.length ? aliasPool.splice(Math.floor(r * aliasPool.length), 1)[0] : EXTRA_ALIASES.shift() ?? `Alias${i}` }
     list.push({
       id: `OFF-${String(i + 1).padStart(4, '0')}`,
       name: `${father[0]}. ${first}`,
-      alias: aliasPool.splice(Math.floor(rand() * aliasPool.length), 1)[0],
+      alias: pickAlias(),
       father: `S/o ${father}`,
       age,
       heightCm: int(158, 182),

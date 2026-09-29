@@ -20,14 +20,16 @@ function GlobalSearch() {
   const results = useMemo(() => {
     const s = q.trim().toLowerCase()
     if (s.length < 2) return []
-    return db.offenders.filter((o) =>
-      o.name.toLowerCase().includes(s) || o.alias.toLowerCase().includes(s) || o.id.toLowerCase().includes(s) ||
-      (o.historySheet?.no.toLowerCase().includes(s))).slice(0, 7)
+    const has = (v) => String(v ?? '').toLowerCase().includes(s)
+    return db.offenders.filter((o) => has(o.name) || has(o.alias) || has(o.id) || has(o.historySheet?.no)).slice(0, 7)
   }, [q])
   return (
     <div className="search">
       <Icon name="search" />
       <input placeholder="Search name, alias, ID, HS no." value={q} onChange={(e) => setQ(e.target.value)} onBlur={() => setTimeout(() => setQ(''), 200)} />
+      {q.trim().length >= 2 && results.length === 0 && (
+        <div className="results"><div className="small muted" style={{ padding: '10px 12px' }}>No offender matches “{q.trim()}”</div></div>
+      )}
       {results.length > 0 && (
         <div className="results">
           {results.map((o) => (
