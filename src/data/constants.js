@@ -7,19 +7,19 @@ export const MAP_CENTER = [13.1022, 80.2635]
 // Fixed categorical order (validated for the dark surface). Colour follows the
 // crime type everywhere in the app, never its rank.
 export const CRIME_TYPES = [
-  { id: 'chain', label: 'Chain Snatching', ta: 'சங்கிலி பறிப்பு', color: '#3987e5', weight: 24,
+  { id: 'chain', label: 'Chain Snatching', ta: 'சங்கிலி பறிப்பு', color: '#2a78d6', weight: 24,
     hours: [6, 6, 7, 7, 7, 8, 8, 9, 10, 17, 18, 18, 19, 19, 20, 20, 21] },
-  { id: 'robbery', label: 'Robbery', ta: 'வழிப்பறி', color: '#d95926', weight: 14,
+  { id: 'robbery', label: 'Robbery', ta: 'வழிப்பறி', color: '#eb6834', weight: 14,
     hours: [0, 1, 2, 21, 22, 22, 23, 23, 20, 19, 3] },
-  { id: 'hb', label: 'House Break-in', ta: 'வீடு உடைப்பு', color: '#199e70', weight: 15,
+  { id: 'hb', label: 'House Break-in', ta: 'வீடு உடைப்பு', color: '#1baf7a', weight: 15,
     hours: [0, 1, 1, 2, 2, 3, 3, 4, 11, 12, 13, 14] },
-  { id: 'vehicle', label: 'Two-Wheeler Theft', ta: 'இருசக்கர வாகன திருட்டு', color: '#c98500', weight: 18,
+  { id: 'vehicle', label: 'Two-Wheeler Theft', ta: 'இருசக்கர வாகன திருட்டு', color: '#eda100', weight: 18,
     hours: [22, 23, 0, 1, 2, 3, 4, 5, 13, 14, 15] },
-  { id: 'mobile', label: 'Mobile Snatching', ta: 'கைபேசி பறிப்பு', color: '#d55181', weight: 16,
+  { id: 'mobile', label: 'Mobile Snatching', ta: 'கைபேசி பறிப்பு', color: '#e87ba4', weight: 16,
     hours: [7, 8, 9, 12, 17, 18, 19, 20, 21, 22] },
   { id: 'pickpocket', label: 'Pickpocketing', ta: 'பிக்பாக்கெட்', color: '#008300', weight: 9,
     hours: [8, 9, 10, 11, 12, 16, 17, 18, 19] },
-  { id: 'extortion', label: 'Extortion', ta: 'மிரட்டி பணம் பறிப்பு', color: '#9085e9', weight: 4,
+  { id: 'extortion', label: 'Extortion', ta: 'மிரட்டி பணம் பறிப்பு', color: '#4a3aa7', weight: 4,
     hours: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] },
 ]
 export const TYPE_BY_ID = Object.fromEntries(CRIME_TYPES.map((t) => [t.id, t]))
@@ -46,15 +46,15 @@ export const BEAT_BY_ID = Object.fromEntries(BEATS.map((b) => [b.id, b]))
 
 // Fictional gang labels for the demo only.
 export const GANGS = [
-  { id: 'g1', name: 'Aadu Thotti Crew', color: '#3987e5' },
-  { id: 'g2', name: 'Basin Bridge Boys', color: '#d95926' },
-  { id: 'g3', name: 'Otteri Nullah Gang', color: '#199e70' },
-  { id: 'g4', name: 'K.M. Garden Group', color: '#c98500' },
-  { id: 'g5', name: 'Pattalam Market Gang', color: '#d55181' },
-  { id: 'g6', name: 'Barracks Road Riders', color: '#9085e9' },
+  { id: 'g1', name: 'Aadu Thotti Crew', color: '#2a78d6' },
+  { id: 'g2', name: 'Basin Bridge Boys', color: '#eb6834' },
+  { id: 'g3', name: 'Otteri Nullah Gang', color: '#1baf7a' },
+  { id: 'g4', name: 'K.M. Garden Group', color: '#eda100' },
+  { id: 'g5', name: 'Pattalam Market Gang', color: '#e87ba4' },
+  { id: 'g6', name: 'Barracks Road Riders', color: '#4a3aa7' },
 ]
 export const GANG_BY_ID = Object.fromEntries(GANGS.map((g) => [g.id, g]))
-export const NO_GANG_COLOR = '#6b778c'
+export const NO_GANG_COLOR = '#a3a9b5'
 
 export const OFFENDER_STATUSES = {
   custody: { label: 'In Custody', ta: 'காவலில்', tone: 'good' },
