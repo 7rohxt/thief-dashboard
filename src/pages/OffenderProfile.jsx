@@ -49,7 +49,7 @@ export default function OffenderProfile({ id }) {
         <div>
           <div className="row" style={{ flexWrap: 'wrap', gap: 12 }}>
             <h2 style={{ fontSize: 26 }}>{o.name}</h2>
-            <span className="t2" style={{ fontSize: 16 }}>alias <b style={{ color: 'var(--text)' }}>{o.alias}</b></span>
+            {o.alias && <span className="t2" style={{ fontSize: 16 }}>alias <b style={{ color: 'var(--text)' }}>{o.alias}</b></span>}
             <StatusBadge status={o.status} />
             <RiskPill risk={o.risk} />
             {o.historySheet && <span className="tag">History-sheeter · Cat {o.historySheet.category}</span>}

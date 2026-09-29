@@ -22,7 +22,7 @@ export default function Offenders({ query }) {
   const list = useMemo(() => {
     const s = q.trim().toLowerCase()
     let l = db.offenders.filter((o) =>
-      (!s || o.name.toLowerCase().includes(s) || o.alias.toLowerCase().includes(s) || o.id.toLowerCase().includes(s)) &&
+      (!s || o.name.toLowerCase().includes(s) || (o.alias ?? '').toLowerCase().includes(s) || o.id.toLowerCase().includes(s)) &&
       (type === 'all' || o.primaryType === type || o.secondaryType === type) &&
       (status === 'all' || o.status === status) &&
       (gang === 'all' || (gang === 'none' ? !o.gangId : o.gangId === gang)) &&
@@ -79,7 +79,7 @@ export default function Offenders({ query }) {
               <div className="body">
                 <div>
                   <div className="nm">{o.name}</div>
-                  <div className="al">alias <b style={{ color: 'var(--text)', fontWeight: 600 }}>{o.alias}</b> · {o.age} yrs</div>
+                  <div className="al">{o.alias && <>alias <b style={{ color: 'var(--text)', fontWeight: 600 }}>{o.alias}</b> · </>}{o.age} yrs · {o.father}</div>
                 </div>
                 <StatusBadge status={o.status} />
                 <TypeChip type={o.primaryType} />

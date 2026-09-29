@@ -23,7 +23,7 @@ export default function Cases({ query }) {
       (type === 'all' || c.type === type) && (station === 'all' || c.station === station) && (status === 'all' || c.status === status) &&
       c.ts >= f && c.ts < t &&
       (!s || c.fir.toLowerCase().includes(s) || c.property.toLowerCase().includes(s) || BEAT_BY_ID[c.beat].name.toLowerCase().includes(s) ||
-        c.accused.some((a) => offenderById[a].name.toLowerCase().includes(s) || offenderById[a].alias.toLowerCase().includes(s))))
+        c.accused.some((a) => offenderById[a].name.toLowerCase().includes(s) || (offenderById[a].alias ?? '').toLowerCase().includes(s))))
   }, [q, type, station, status, from, to])
 
   const pages = Math.max(1, Math.ceil(list.length / PAGE))
@@ -34,7 +34,7 @@ export default function Cases({ query }) {
   const exportCSV = () => {
     const rows = [['FIR', 'Station', 'Date', 'Crime type', 'Area', 'Accused', 'Status', 'Property', 'Value (INR)', 'Recovered (INR)', 'Vehicle used', 'Victim']]
     for (const c of list) rows.push([c.fir, c.station, fmtDateTime(c.date), TYPE_BY_ID[c.type].label, BEAT_BY_ID[c.beat].name,
-      c.accused.map((a) => `${offenderById[a].name} @ ${offenderById[a].alias}`).join('; ') || 'Not identified', CASE_STATUSES[c.status].label,
+      c.accused.map((a) => offenderById[a].name + (offenderById[a].alias ? ` @ ${offenderById[a].alias}` : '')).join('; ') || 'Not identified', CASE_STATUSES[c.status].label,
       c.property, c.value, c.recovered, c.vehicle, `${c.victim.gender}, ${c.victim.ageBand}`])
     download('pulianthope-cases.csv', toCSV(rows))
   }

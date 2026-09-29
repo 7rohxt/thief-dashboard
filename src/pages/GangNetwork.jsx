@@ -112,7 +112,7 @@ export default function GangNetwork({ query }) {
                 <img src={photoOf(selO)} className="avatar" width={92} height={92} alt={selO.name} />
                 <div className="col" style={{ gap: 6 }}>
                   <b style={{ fontSize: 16 }}>{selO.name}</b>
-                  <span className="t2">alias <b style={{ color: 'var(--text)' }}>{selO.alias}</b></span>
+                  {selO.alias && <span className="t2">alias <b style={{ color: 'var(--text)' }}>{selO.alias}</b></span>}
                   <StatusBadge status={selO.status} />
                   <TypeChip type={selO.primaryType} />
                   <RiskPill risk={selO.risk} />
