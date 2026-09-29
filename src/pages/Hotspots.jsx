@@ -5,9 +5,9 @@ import { Card, Seg, HBars, OffenderLink, Icon } from '../components/ui.jsx'
 import { BaseMap, CaseDot, BeatBubble } from '../components/CaseMap.jsx'
 import { WEEKDAYS, hourLabel, fmtPct } from '../lib/format.js'
 
-// Sequential single-hue ramp (blue) stepped for the dark surface: low = recedes, high = bright.
-const RAMP = ['#16233a', '#104281', '#184f95', '#1c5cab', '#256abf', '#2a78d6', '#3987e5', '#5598e7', '#86b6ef', '#cde2fb']
-const rampColor = (v, max) => (v === 0 ? 'rgba(255,255,255,0.03)' : RAMP[Math.min(RAMP.length - 1, 1 + Math.floor((v / Math.max(1, max)) * (RAMP.length - 2)))])
+// Sequential single-hue ramp (blue): light = few, dark = many.
+const RAMP = ['#f2f4f7', '#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#2a78d6', '#256abf', '#1c5cab', '#184f95', '#0d366b']
+const rampColor = (v, max) => (v === 0 ? RAMP[0] : RAMP[Math.min(RAMP.length - 1, 1 + Math.floor((v / Math.max(1, max)) * (RAMP.length - 2)))])
 
 export default function Hotspots({ period, setPeriod, query }) {
   const [type, setType] = useState(query.type ?? 'all')
@@ -19,7 +19,7 @@ export default function Hotspots({ period, setPeriod, query }) {
   const cases = useMemo(() => all.filter((c) => type === 'all' || c.type === type), [all, type])
   const prev = useMemo(() => prevAll.filter((c) => type === 'all' || c.type === type), [prevAll, type])
   const scoped = beatSel ? cases.filter((c) => c.beat === beatSel) : cases
-  const color = type === 'all' ? '#e66767' : TYPE_BY_ID[type].color
+  const color = type === 'all' ? '#e34948' : TYPE_BY_ID[type].color
 
   const beatCounts = BEATS.map((b) => ({ beat: b, n: cases.filter((c) => c.beat === b.id).length, p: prev.filter((c) => c.beat === b.id).length }))
   const maxBeat = Math.max(...beatCounts.map((b) => b.n))
@@ -65,7 +65,7 @@ export default function Hotspots({ period, setPeriod, query }) {
           right={<Seg options={[{ id: 'areas', label: 'Areas' }, { id: 'cases', label: 'Each case' }]} value={view} onChange={setView} />}>
           <BaseMap height={470} bounds={BEATS.map((b) => [b.lat, b.lng])}>
             {view === 'areas'
-              ? beatCounts.map(({ beat, n }) => <BeatBubble key={beat.id} beat={beat} count={n} max={maxBeat} min={minBeat} color={beatSel === beat.id ? '#ffffff' : color} onClick={(b) => setBeatSel(beatSel === b.id ? null : b.id)} />)
+              ? beatCounts.map(({ beat, n }) => <BeatBubble key={beat.id} beat={beat} count={n} max={maxBeat} min={minBeat} color={beatSel === beat.id ? '#1b3a8a' : color} onClick={(b) => setBeatSel(beatSel === b.id ? null : b.id)} />)
               : scoped.map((c) => <CaseDot key={c.id} c={c} />)}
           </BaseMap>
           {view === 'cases' && type === 'all' && (
@@ -82,10 +82,10 @@ export default function Hotspots({ period, setPeriod, query }) {
                 {beatCounts.slice().sort((a, b) => b.n - a.n).map(({ beat, n, p }) => {
                   const ch = p ? (n - p) / p : null
                   return (
-                    <tr key={beat.id} className="click" onClick={() => setBeatSel(beatSel === beat.id ? null : beat.id)} style={beatSel === beat.id ? { outline: '1px solid var(--gold)' } : undefined}>
+                    <tr key={beat.id} className="click" onClick={() => setBeatSel(beatSel === beat.id ? null : beat.id)} style={beatSel === beat.id ? { background: 'var(--brand-soft)' } : undefined}>
                       <td><div>{beat.name}</div><div className="small muted">{beat.station} PS</div></td>
                       <td className="num"><b>{n}</b></td>
-                      <td className="num" style={{ color: ch == null ? 'var(--muted)' : ch > 0.1 ? '#ff7b7b' : ch < -0.1 ? '#3ccf5a' : 'var(--text-2)' }}>
+                      <td className="num" style={{ color: ch == null ? 'var(--muted)' : ch > 0.1 ? 'var(--critical)' : ch < -0.1 ? 'var(--good)' : 'var(--text-2)' }}>
                         {ch == null ? '—' : `${ch > 0 ? '▲' : ch < 0 ? '▼' : ''} ${Math.abs(ch * 100).toFixed(0)}%`}
                       </td>
                     </tr>
@@ -98,13 +98,13 @@ export default function Hotspots({ period, setPeriod, query }) {
       </div>
 
       {beatSel && (
-        <div className="card row" style={{ justifyContent: 'space-between', borderColor: 'var(--gold)' }}>
+        <div className="card row" style={{ justifyContent: 'space-between', borderColor: '#c7d4f1', background: 'var(--brand-soft)' }}>
           <span><Icon name="map" size={14} /> Focused on <b>{BEAT_BY_ID[beatSel].name}</b> ({BEAT_BY_ID[beatSel].station} PS) · {scoped.length} cases</span>
           <button className="btn" onClick={() => setBeatSel(null)}>Clear focus</button>
         </div>
       )}
 
-      <Card title="When crimes happen" hint="Day of week × hour · darker = fewer, brighter = more">
+      <Card title="When crimes happen" hint="Day of week × hour · darker = more cases">
         <div className="heat">
           <span />
           {Array.from({ length: 24 }, (_, h) => <span key={h} className="hl">{h % 3 === 0 ? hourLabel(h) : ''}</span>)}

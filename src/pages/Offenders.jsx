@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { db } from '../data/index.js'
 import { CRIME_TYPES, TYPE_BY_ID, OFFENDER_STATUSES, GANGS, GANG_BY_ID, BEAT_BY_ID } from '../data/constants.js'
-import { StatusBadge, TypeChip, Seg, openOffender } from '../components/ui.jsx'
+import { StatusBadge, TypeChip, Seg, RiskPill, openOffender } from '../components/ui.jsx'
 import { photoOf } from '../lib/photos.js'
 import { daysAgo } from '../lib/format.js'
 
@@ -68,19 +68,18 @@ export default function Offenders({ query }) {
       {list.length === 0 && <div className="card empty">No offenders match these filters.</div>}
       <div className="off-grid">
         {list.map((o) => {
-          const riskColor = o.risk >= 75 ? '#d03b3b' : o.risk >= 50 ? '#c4592f' : o.risk >= 25 ? '#9a7400' : '#3a7d44'
           return (
             <div key={o.id} className="off-card" onClick={() => openOffender(o.id)}>
               <div className="ph">
                 <img src={photoOf(o)} alt={o.name} loading="lazy" />
                 <span className="id">{o.id}</span>
-                <span className="risk" style={{ background: riskColor }}>Risk {o.risk}</span>
-                {o.historySheet && <span className="hs tag" style={{ background: 'rgba(10,18,32,.85)' }}>{o.historySheet.no} · Cat {o.historySheet.category}</span>}
+                <span className="risk"><RiskPill risk={o.risk} /></span>
+                {o.historySheet && <span className="hs tag">{o.historySheet.no} · Cat {o.historySheet.category}</span>}
               </div>
               <div className="body">
                 <div>
                   <div className="nm">{o.name}</div>
-                  <div className="al">@ {o.alias} · {o.age} yrs</div>
+                  <div className="al">alias <b style={{ color: 'var(--text)', fontWeight: 600 }}>{o.alias}</b> · {o.age} yrs</div>
                 </div>
                 <StatusBadge status={o.status} />
                 <TypeChip type={o.primaryType} />

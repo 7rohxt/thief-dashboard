@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ALERTS } from '../data/alerts.js'
 import { offenderById } from '../data/index.js'
-import { Icon, Avatar, Seg } from '../components/ui.jsx'
+import { Icon, Avatar, Seg, TONES } from '../components/ui.jsx'
 import { go } from '../lib/router.js'
 
 const TONE_COLOR = { critical: 'var(--critical)', serious: 'var(--serious)', warning: 'var(--warning)', good: 'var(--good)' }
@@ -29,11 +29,11 @@ export default function Alerts() {
             <span className="edge" style={{ background: TONE_COLOR[a.tone] }} />
             {a.offender
               ? <Avatar offender={offenderById[a.offender]} size={46} />
-              : <span style={{ width: 46, height: 46, borderRadius: 8, display: 'grid', placeItems: 'center', background: 'rgba(208,59,59,.15)', color: TONE_COLOR[a.tone] }}><Icon name={a.icon} size={22} /></span>}
+              : <span style={{ width: 46, height: 46, borderRadius: 8, display: 'grid', placeItems: 'center', background: TONES[a.tone].bg, color: TONE_COLOR[a.tone] }}><Icon name={a.icon} size={22} /></span>}
             <div className="col" style={{ gap: 2 }}>
               <div className="row" style={{ gap: 8 }}>
-                <span className="badge" style={{ background: `color-mix(in srgb, ${TONE_COLOR[a.tone]} 18%, transparent)` }}>
-                  <span style={{ color: TONE_COLOR[a.tone], display: 'flex' }}><Icon name={a.icon} size={12} /></span>{TONE_LABEL[a.tone]} · {a.kind}
+                <span className="badge" style={{ background: TONES[a.tone].bg, color: TONE_COLOR[a.tone] }}>
+                  <span style={{ display: 'flex' }}><Icon name={a.icon} size={12} /></span>{TONE_LABEL[a.tone]} · {a.kind}
                 </span>
               </div>
               <div className="ttl">{a.title}</div>

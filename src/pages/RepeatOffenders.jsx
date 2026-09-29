@@ -55,7 +55,7 @@ export default function RepeatOffenders() {
         <Kpi label={`Repeat offenders (2+ ${label})`} icon="repeat" color={color} value={fmtInt(rows.length)} />
         <Kpi label="Habitual (5+ cases)" icon="alert" color="var(--critical)" value={fmtInt(rows.filter((r) => r.n >= 5).length)} />
         <Kpi label="Solved cases linked to top 10" icon="users" color="var(--serious)" value={detected.length ? fmtPct(byTop10 / detected.length) : '—'} />
-        <Kpi label="Median gap before re-offending" icon="clock" color="var(--gold)" value={median != null ? `${median} days` : '—'} />
+        <Kpi label="Median gap before re-offending" icon="clock" color="#b88400" value={median != null ? `${median} days` : '—'} />
         <Kpi label="Escalating this year" icon="trend" color="var(--warning)" value={fmtInt(escalating.length)} />
       </div>
 
@@ -66,7 +66,7 @@ export default function RepeatOffenders() {
               <CartesianGrid vertical={false} stroke="var(--grid)" />
               <XAxis dataKey="label" tickLine={false} axisLine={{ stroke: 'var(--axis)' }} />
               <YAxis tickLine={false} axisLine={false} allowDecimals={false} />
-              <Tooltip cursor={{ fill: 'rgba(255,255,255,0.04)' }} content={<ChartTip valueFmt={(v) => `${v} repeat offences`} />} />
+              <Tooltip cursor={{ fill: 'rgba(16,24,40,0.04)' }} content={<ChartTip valueFmt={(v) => `${v} repeat offences`} />} />
               <Bar dataKey="value" name="Re-offences" fill={color} radius={[4, 4, 0, 0]} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
@@ -77,7 +77,7 @@ export default function RepeatOffenders() {
               <CartesianGrid vertical={false} stroke="var(--grid)" />
               <XAxis dataKey="label" tickLine={false} axisLine={{ stroke: 'var(--axis)' }} interval={0} angle={-45} textAnchor="end" height={50} />
               <YAxis tickLine={false} axisLine={false} allowDecimals={false} />
-              <Tooltip cursor={{ fill: 'rgba(255,255,255,0.04)' }} content={<ChartTip valueFmt={(v) => `${v} cases`} />} />
+              <Tooltip cursor={{ fill: 'rgba(16,24,40,0.04)' }} content={<ChartTip valueFmt={(v) => `${v} cases`} />} />
               <Bar dataKey="value" name="Cases" radius={[4, 4, 0, 0]} isAnimationActive={false} onClick={(d) => openOffender(d.id)} style={{ cursor: 'pointer' }}>
                 {pareto.map((p, i) => <Cell key={p.id} fill={color} fillOpacity={i < 10 ? 1 : 0.45} />)}
               </Bar>
@@ -97,7 +97,7 @@ export default function RepeatOffenders() {
                     <td className="muted">{i + 1}</td>
                     <td><OffenderLink offender={r.o} sub={`${r.o.id} · ${TYPE_BY_ID[r.o.primaryType].label}`} size={32} /></td>
                     <td className="num"><b>{r.n}</b></td>
-                    <td className="num">{r.last12}{r.last12 > r.prev12 && r.last12 >= 3 ? <span style={{ color: '#ff7b7b' }}> ▲</span> : ''}</td>
+                    <td className="num">{r.last12}{r.last12 > r.prev12 && r.last12 >= 3 ? <span style={{ color: 'var(--critical)' }}> ▲</span> : ''}</td>
                     <td className="num">{r.avgGap != null ? `${Math.round(r.avgGap)} d` : '—'}</td>
                     <td className="t2">{daysAgo(r.last.date)}</td>
                     <td><StatusBadge status={r.o.status} /></td>

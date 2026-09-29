@@ -83,7 +83,7 @@ export default function GangNetwork({ query }) {
               const on = neighbours && (l.source.id === focus || l.target.id === focus)
               const off = neighbours ? !on : gangFilter !== 'all' && (l.source.o.gangId !== gangFilter || l.target.o.gangId !== gangFilter)
               return <line key={`${l.source.id}-${l.target.id}`} x1={l.source.x} y1={l.source.y} x2={l.target.x} y2={l.target.y}
-                stroke={on ? '#e3b341' : '#8a96ab'} strokeOpacity={off ? 0.06 : on ? 0.95 : 0.35} strokeWidth={Math.min(7, 0.8 + l.count * 0.7)} />
+                stroke={on ? '#1b3a8a' : '#98a2b3'} strokeOpacity={off ? 0.08 : on ? 0.9 : 0.45} strokeWidth={Math.min(7, 0.8 + l.count * 0.7)} />
             })}
             {nodes.map((n) => {
               const c = n.o.gangId ? GANG_BY_ID[n.o.gangId].color : NO_GANG_COLOR
@@ -92,11 +92,11 @@ export default function GangNetwork({ query }) {
                 <g key={n.id} style={{ cursor: 'pointer', opacity: faded ? 0.15 : 1, transition: 'opacity .15s' }}
                   onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)}
                   onClick={(e) => { e.stopPropagation(); setSel(n.id) }}>
-                  <circle cx={n.x} cy={n.y} r={n.r + 1} fill="#131e31" stroke={sel === n.id ? '#ffffff' : c} strokeWidth={sel === n.id ? 4 : 3} />
+                  <circle cx={n.x} cy={n.y} r={n.r + 1} fill="#ffffff" stroke={sel === n.id ? '#101828' : c} strokeWidth={sel === n.id ? 4 : 3} />
                   <image href={photoOf(n.o)} x={n.x - n.r} y={n.y - n.r} width={n.r * 2} height={n.r * 2} clipPath={`url(#clip-${n.id})`} preserveAspectRatio="xMidYMid slice" />
-                  {n.o.status === 'absconding' && <circle cx={n.x + n.r * 0.72} cy={n.y - n.r * 0.72} r={5} fill="#d03b3b" stroke="#131e31" strokeWidth={2} />}
+                  {n.o.status === 'absconding' && <circle cx={n.x + n.r * 0.72} cy={n.y - n.r * 0.72} r={5} fill="#d92d20" stroke="#ffffff" strokeWidth={2} />}
                   {(focus ? neighbours.has(n.id) : n.r > 24) && (
-                    <text x={n.x} y={n.y + n.r + 13} textAnchor="middle" fontSize="11" fill="#f2f5fa" stroke="#0a1220" strokeWidth="3" paintOrder="stroke">{n.o.alias}</text>
+                    <text x={n.x} y={n.y + n.r + 13} textAnchor="middle" fontSize="11" fill="#101828" fontWeight="600" stroke="#ffffff" strokeWidth="4" paintOrder="stroke">{n.o.alias}</text>
                   )}
                 </g>
               )
@@ -112,7 +112,7 @@ export default function GangNetwork({ query }) {
                 <img src={photoOf(selO)} className="avatar" width={92} height={92} alt={selO.name} />
                 <div className="col" style={{ gap: 6 }}>
                   <b style={{ fontSize: 16 }}>{selO.name}</b>
-                  <span style={{ color: 'var(--gold)' }}>@ {selO.alias}</span>
+                  <span className="t2">alias <b style={{ color: 'var(--text)' }}>{selO.alias}</b></span>
                   <StatusBadge status={selO.status} />
                   <TypeChip type={selO.primaryType} />
                   <RiskPill risk={selO.risk} />
@@ -127,7 +127,7 @@ export default function GangNetwork({ query }) {
             <Card title="Gangs" hint="Click to highlight">
               <div className="col" style={{ gap: 10 }}>
                 {gangStats.map(({ g, members, cases, top, active, leader }) => (
-                  <div key={g.id} className="card" style={{ padding: 12, cursor: 'pointer', background: gangFilter === g.id ? 'var(--panel-2)' : 'transparent', borderColor: gangFilter === g.id ? g.color : 'var(--border)' }}
+                  <div key={g.id} className="card" style={{ padding: 12, cursor: 'pointer', background: gangFilter === g.id ? 'var(--brand-soft)' : '#fff', boxShadow: 'none', borderColor: gangFilter === g.id ? g.color : 'var(--border)' }}
                     onClick={() => setGangFilter(gangFilter === g.id ? 'all' : g.id)}>
                     <div className="row" style={{ justifyContent: 'space-between' }}>
                       <span className="chip" style={{ color: 'var(--text)', fontWeight: 600, fontSize: 13 }}><span className="sw" style={{ background: g.color }} />{g.name}</span>

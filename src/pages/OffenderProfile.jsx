@@ -50,11 +50,11 @@ export default function OffenderProfile({ id }) {
         <div>
           <div className="row" style={{ flexWrap: 'wrap', gap: 12 }}>
             <h2 style={{ fontSize: 26 }}>{o.name}</h2>
-            <span style={{ color: 'var(--gold)', fontSize: 16 }}>@ {o.alias}</span>
+            <span className="t2" style={{ fontSize: 16 }}>alias <b style={{ color: 'var(--text)' }}>{o.alias}</b></span>
             <StatusBadge status={o.status} />
             <RiskPill risk={o.risk} />
             {o.historySheet && <span className="tag">History-sheeter · Cat {o.historySheet.category}</span>}
-            {o.nbw && <span className="badge" style={{ background: 'rgba(208,59,59,.2)' }}><Icon name="alert" size={12} style={{ color: 'var(--critical)' }} /> NBW issued</span>}
+            {o.nbw && <span className="badge" style={{ background: 'var(--critical-bg)', color: 'var(--critical)' }}><Icon name="alert" size={12} /> NBW issued</span>}
           </div>
           <div className="t2" style={{ marginTop: 6 }}>{o.father} · {o.age} yrs · {o.mo}</div>
           <div className="facts">
@@ -74,7 +74,7 @@ export default function OffenderProfile({ id }) {
 
       <div className="grid g-kpi">
         <Kpi label="Cases on record" icon="file" value={fmtInt(o.caseCount)} />
-        <Kpi label="Property involved" icon="rupee" color="var(--gold)" value={fmtINR(o.propertyValue, true)} />
+        <Kpi label="Property involved" icon="rupee" color="#b88400" value={fmtINR(o.propertyValue, true)} />
         <Kpi label="Recovered" icon="check" color="var(--good)" value={fmtINR(recovered, true)} />
         <Kpi label="Avg gap between offences" icon="repeat" color="var(--serious)" value={avgGap != null ? `${avgGap} days` : '—'} />
         <Kpi label="Usual time" icon="clock" color="var(--accent)" value={cases.length ? `${((peak + 11) % 12) + 1}${peak < 12 ? ' AM' : ' PM'}` : '—'} />
@@ -88,7 +88,7 @@ export default function OffenderProfile({ id }) {
               <CartesianGrid vertical={false} stroke="var(--grid)" />
               <XAxis dataKey="label" tickLine={false} axisLine={{ stroke: 'var(--axis)' }} />
               <YAxis tickLine={false} axisLine={false} allowDecimals={false} />
-              <Tooltip cursor={{ fill: 'rgba(255,255,255,0.04)' }} content={<ChartTip />} />
+              <Tooltip cursor={{ fill: 'rgba(16,24,40,0.04)' }} content={<ChartTip />} />
               {typesUsed.map((t, i) => (
                 <Bar key={t.id} dataKey={t.id} name={t.label} stackId="a" fill={t.color} stroke="var(--panel)" strokeWidth={1}
                   radius={i === typesUsed.length - 1 ? [4, 4, 0, 0] : 0} isAnimationActive={false} />

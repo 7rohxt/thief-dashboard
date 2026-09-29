@@ -54,10 +54,10 @@ export default function Overview({ period, setPeriod }) {
       </div>
 
       <div className="grid g-kpi">
-        <Kpi label="Total cases (FIRs)" icon="file" value={fmtInt(stats.cur.total)} delta={rel(stats.cur.total, stats.prev.total)} />
+        <Kpi label="Total cases" icon="file" value={fmtInt(stats.cur.total)} delta={rel(stats.cur.total, stats.prev.total)} />
         <Kpi label="Chain snatching" icon="alert" color={TYPE_BY_ID.chain.color} value={fmtInt(stats.cur.chain)} delta={rel(stats.cur.chain, stats.prev.chain)} />
         <Kpi label="Detection rate" icon="check" color="var(--good)" value={fmtPct(stats.cur.detRate)} delta={rel(stats.cur.detRate, stats.prev.detRate)} deltaGoodWhenDown={false} />
-        <Kpi label="Property recovered" icon="rupee" color="var(--gold)" value={fmtINR(stats.cur.recovered, true)} delta={rel(stats.cur.recRate, stats.prev.recRate)} deltaGoodWhenDown={false} />
+        <Kpi label="Property recovered" icon="rupee" color="#b88400" value={fmtINR(stats.cur.recovered, true)} delta={rel(stats.cur.recRate, stats.prev.recRate)} deltaGoodWhenDown={false} />
         <Kpi label="Repeat offenders (3+)" icon="repeat" color="var(--serious)" value={fmtInt(stats.cur.repeaters)} delta={rel(stats.cur.repeaters, stats.prev.repeaters)} />
         <Kpi label="Absconding now" icon="users" color="var(--critical)" value={fmtInt(absconding)} />
       </div>
@@ -70,7 +70,7 @@ export default function Overview({ period, setPeriod }) {
               <CartesianGrid vertical={false} stroke="var(--grid)" />
               <XAxis dataKey="label" tickLine={false} axisLine={{ stroke: 'var(--axis)' }} interval="preserveStartEnd" minTickGap={10} />
               <YAxis tickLine={false} axisLine={false} allowDecimals={false} />
-              <Tooltip cursor={{ fill: 'rgba(255,255,255,0.04)' }} content={<ChartTip labelFmt={(l, p) => `${l} · ${p.reduce((s, x) => s + x.value, 0)} cases`} />} />
+              <Tooltip cursor={{ fill: 'rgba(16,24,40,0.04)' }} content={<ChartTip labelFmt={(l, p) => `${l} · ${p.reduce((s, x) => s + x.value, 0)} cases`} />} />
               {CRIME_TYPES.map((t, i) => (
                 <Bar key={t.id} dataKey={t.id} name={t.label} stackId="a" fill={t.color} stroke="var(--panel)" strokeWidth={1}
                   radius={i === CRIME_TYPES.length - 1 ? [4, 4, 0, 0] : 0} isAnimationActive={false} />
