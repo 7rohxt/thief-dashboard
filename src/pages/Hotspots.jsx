@@ -1,13 +1,10 @@
-import { Fragment, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { casesInPeriod, casesInPreviousPeriod, offenderById, PERIODS } from '../data/index.js'
 import { CRIME_TYPES, TYPE_BY_ID, BEATS, BEAT_BY_ID } from '../data/constants.js'
 import { Card, Seg, HBars, OffenderLink, Icon } from '../components/ui.jsx'
 import { BaseMap, CaseDot, HotSpot, BOUNDARY_BOUNDS } from '../components/CaseMap.jsx'
-import { WEEKDAYS, hourLabel, fmtPct } from '../lib/format.js'
-
-// Sequential single-hue ramp (blue): light = few, dark = many.
-const RAMP = ['#f2f4f7', '#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#2a78d6', '#256abf', '#1c5cab', '#184f95', '#0d366b']
-const rampColor = (v, max) => (v === 0 ? RAMP[0] : RAMP[Math.min(RAMP.length - 1, 1 + Math.floor((v / Math.max(1, max)) * (RAMP.length - 2)))])
+import { fmtPct } from '../lib/format.js'
+import Heatmap from '../components/Heatmap.jsx'
 
 export default function Hotspots({ period, setPeriod, query }) {
   const [type, setType] = useState(query.type ?? 'all')
@@ -25,12 +22,6 @@ export default function Hotspots({ period, setPeriod, query }) {
   const maxBeat = Math.max(...beatCounts.map((b) => b.n))
   const minBeat = Math.min(...beatCounts.map((b) => b.n))
 
-  const heat = useMemo(() => {
-    const m = Array.from({ length: 7 }, () => Array(24).fill(0))
-    for (const c of scoped) m[c.weekday][c.hour]++
-    return m
-  }, [scoped])
-  const heatMax = Math.max(...heat.flat())
 
   const tally = (fn) => {
     const t = {}
@@ -113,21 +104,7 @@ export default function Hotspots({ period, setPeriod, query }) {
       )}
 
       <Card title="When crimes happen" hint="Day of week × hour · darker = more cases">
-        <div className="heat">
-          <span />
-          {Array.from({ length: 24 }, (_, h) => <span key={h} className="hl">{h % 3 === 0 ? hourLabel(h) : ''}</span>)}
-          {heat.map((row, d) => (
-            <Fragment key={d}>
-              <span className="lab">{WEEKDAYS[d]}</span>
-              {row.map((v, h) => <span key={`${d}-${h}`} className="cell" style={{ background: rampColor(v, heatMax) }} title={`${WEEKDAYS[d]} ${hourLabel(h)}–${hourLabel((h + 1) % 24)}: ${v} cases`} />)}
-            </Fragment>
-          ))}
-        </div>
-        <div className="row small muted" style={{ marginTop: 10, gap: 6 }}>
-          <span>Fewer</span>
-          {RAMP.slice(1).map((c) => <span key={c} style={{ width: 22, height: 10, background: c, borderRadius: 2 }} />)}
-          <span>More (max {heatMax} in one slot)</span>
-        </div>
+        <Heatmap cases={scoped} />
       </Card>
 
       <div className="grid g-3">
