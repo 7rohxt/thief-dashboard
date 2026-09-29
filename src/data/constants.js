@@ -49,12 +49,12 @@ export const BEAT_BY_ID = Object.fromEntries(BEATS.map((b) => [b.id, b]))
 
 // Fictional gang labels for the demo only.
 export const GANGS = [
-  { id: 'g1', name: 'Aadu Thotti Crew', color: '#2a78d6' },
-  { id: 'g2', name: 'Basin Bridge Boys', color: '#eb6834' },
+  { id: 'g1', name: 'Aadu Thotti Gang', color: '#2a78d6' },
+  { id: 'g2', name: 'Basin Bridge Gang', color: '#eb6834' },
   { id: 'g3', name: 'Otteri Nullah Gang', color: '#1baf7a' },
-  { id: 'g4', name: 'K.M. Garden Group', color: '#eda100' },
+  { id: 'g4', name: 'K.M. Garden Gang', color: '#eda100' },
   { id: 'g5', name: 'Pattalam Market Gang', color: '#e87ba4' },
-  { id: 'g6', name: 'Barracks Road Riders', color: '#4a3aa7' },
+  { id: 'g6', name: 'Barracks Road Gang', color: '#4a3aa7' },
 ]
 export const GANG_BY_ID = Object.fromEntries(GANGS.map((g) => [g.id, g]))
 export const NO_GANG_COLOR = '#a3a9b5'
