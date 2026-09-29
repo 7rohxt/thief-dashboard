@@ -1,21 +1,32 @@
-import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip as LTooltip } from 'react-leaflet'
+import { MapContainer, TileLayer, CircleMarker, Circle, Polygon, Popup, Tooltip as LTooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import { MAP_CENTER, TYPE_BY_ID, BEAT_BY_ID } from '../data/constants.js'
+import { MAP_CENTER, PULIANTHOPE_BOUNDARY, TYPE_BY_ID, BEAT_BY_ID } from '../data/constants.js'
 import { fmtDateTime, fmtINR } from '../lib/format.js'
 import { offenderById } from '../data/index.js'
 
-const TILES = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
-const ATTR = '&copy; OpenStreetMap contributors &copy; CARTO'
+// Free OpenStreetMap tiles: no API key. Attribution is required by the OSM tile policy.
+const TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+const ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 
-export function BaseMap({ height = 420, zoom = 15, center = MAP_CENTER, bounds, children }) {
-  const view = bounds ? { bounds, boundsOptions: { padding: [36, 36] } } : { center, zoom }
+export function BaseMap({ height = 420, zoom = 15, center = MAP_CENTER, bounds, boundary = true, children }) {
+  const view = bounds ? { bounds, boundsOptions: { padding: [24, 24] } } : { center, zoom }
   return (
     <MapContainer {...view} zoomSnap={0.25} style={{ height }} scrollWheelZoom={false}>
-      <TileLayer url={TILES} attribution={ATTR} subdomains="abcd" maxZoom={19} />
+      <TileLayer url={TILES} attribution={ATTR} maxZoom={19} />
+      {boundary && <PulianthopeBoundary />}
       {children}
     </MapContainer>
   )
 }
+
+export function PulianthopeBoundary() {
+  return (
+    <Polygon positions={PULIANTHOPE_BOUNDARY} interactive={false}
+      pathOptions={{ color: '#c8102e', weight: 2, dashArray: '6 5', fillColor: '#c8102e', fillOpacity: 0.05 }} />
+  )
+}
+
+export const BOUNDARY_BOUNDS = PULIANTHOPE_BOUNDARY
 
 export function CaseDot({ c }) {
   const t = TYPE_BY_ID[c.type]
@@ -35,14 +46,24 @@ export function CaseDot({ c }) {
   )
 }
 
-export function BeatBubble({ beat, count, max, min = 0, color = '#e34948', onClick }) {
+// Heat-style hotspot: a soft outer glow plus a solid core. Radius is in metres so
+// the hotspots scale with the map when zooming. Intensity drives size and depth of red.
+const HOT_RAMP = ['#fcae91', '#fb6a4a', '#ef3b2c', '#cb181d', '#99000d']
+
+export function HotSpot({ beat, count, max, min = 0, selected, onClick }) {
   const t = max > min ? (count - min) / (max - min) : 1
-  const r = count ? 9 + t * 24 : 4
+  if (!count) return null
+  const color = HOT_RAMP[Math.min(HOT_RAMP.length - 1, Math.round(t * (HOT_RAMP.length - 1)))]
+  const r = 45 + t * 105 // metres
+  const handlers = { click: () => onClick?.(beat) }
   return (
-    <CircleMarker center={[beat.lat, beat.lng]} radius={r}
-      pathOptions={{ color, weight: 2, fillColor: color, fillOpacity: 0.18 + 0.42 * t }}
-      eventHandlers={{ click: () => onClick?.(beat) }}>
-      <LTooltip direction="top" offset={[0, -r]}>{beat.name}: <b>{count}</b> cases</LTooltip>
-    </CircleMarker>
+    <>
+      <Circle center={[beat.lat, beat.lng]} radius={r * 1.9} interactive={false} pathOptions={{ stroke: false, fillColor: color, fillOpacity: 0.12 }} />
+      <Circle center={[beat.lat, beat.lng]} radius={r * 1.35} interactive={false} pathOptions={{ stroke: false, fillColor: color, fillOpacity: 0.2 }} />
+      <Circle center={[beat.lat, beat.lng]} radius={r} eventHandlers={handlers}
+        pathOptions={{ color: selected ? '#101828' : '#ffffff', weight: selected ? 3 : 1.5, fillColor: color, fillOpacity: 0.55 + 0.3 * t }}>
+        <LTooltip direction="top" sticky>{beat.name}: <b>{count}</b> cases</LTooltip>
+      </Circle>
+    </>
   )
 }

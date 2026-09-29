@@ -3,7 +3,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Toolti
 import { offenderById, caseById } from '../data/index.js'
 import { TYPE_BY_ID, GANG_BY_ID, BEAT_BY_ID, OFFENDER_STATUSES, CRIME_TYPES, TODAY } from '../data/constants.js'
 import { Card, Kpi, StatusBadge, TypeChip, OffenderLink, Icon, HBars, ChartTip, Legend, RiskPill } from '../components/ui.jsx'
-import { BaseMap, CaseDot } from '../components/CaseMap.jsx'
+import { BaseMap, CaseDot, BOUNDARY_BOUNDS } from '../components/CaseMap.jsx'
 import { photoOf } from '../lib/photos.js'
 import { fmtDate, fmtDateTime, fmtINR, fmtInt, daysAgo } from '../lib/format.js'
 
@@ -30,7 +30,6 @@ export default function OffenderProfile({ id }) {
   const hours = Array.from({ length: 24 }, () => 0)
   for (const c of cases) hours[c.hour]++
   const peak = hours.indexOf(Math.max(...hours))
-  const center = cases.length ? [cases.reduce((s, c) => s + c.lat, 0) / cases.length, cases.reduce((s, c) => s + c.lng, 0) / cases.length] : undefined
 
   const fact = (k, v) => <div><div className="k">{k}</div><div className="v">{v}</div></div>
 
@@ -111,7 +110,7 @@ export default function OffenderProfile({ id }) {
       <div className="grid g-2">
         <Card title="Case locations">
           {cases.length ? (
-            <BaseMap height={360} bounds={cases.length > 1 ? cases.map((c) => [c.lat, c.lng]) : undefined} center={center} zoom={16}>
+            <BaseMap height={360} bounds={BOUNDARY_BOUNDS}>
               {cases.map((c) => <CaseDot key={c.id} c={c} />)}
             </BaseMap>
           ) : <div className="empty">No cases.</div>}

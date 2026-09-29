@@ -2,7 +2,7 @@ import { Fragment, useMemo, useState } from 'react'
 import { casesInPeriod, casesInPreviousPeriod, offenderById, PERIODS } from '../data/index.js'
 import { CRIME_TYPES, TYPE_BY_ID, BEATS, BEAT_BY_ID } from '../data/constants.js'
 import { Card, Seg, HBars, OffenderLink, Icon } from '../components/ui.jsx'
-import { BaseMap, CaseDot, BeatBubble } from '../components/CaseMap.jsx'
+import { BaseMap, CaseDot, HotSpot, BOUNDARY_BOUNDS } from '../components/CaseMap.jsx'
 import { WEEKDAYS, hourLabel, fmtPct } from '../lib/format.js'
 
 // Sequential single-hue ramp (blue): light = few, dark = many.
@@ -63,11 +63,19 @@ export default function Hotspots({ period, setPeriod, query }) {
       <div className="grid g-2-1">
         <Card title="Crime map" hint="Click an area to focus all charts on it"
           right={<Seg options={[{ id: 'areas', label: 'Areas' }, { id: 'cases', label: 'Each case' }]} value={view} onChange={setView} />}>
-          <BaseMap height={470} bounds={BEATS.map((b) => [b.lat, b.lng])}>
+          <BaseMap height={500} bounds={BOUNDARY_BOUNDS}>
             {view === 'areas'
-              ? beatCounts.map(({ beat, n }) => <BeatBubble key={beat.id} beat={beat} count={n} max={maxBeat} min={minBeat} color={beatSel === beat.id ? '#1b3a8a' : color} onClick={(b) => setBeatSel(beatSel === b.id ? null : b.id)} />)
+              ? beatCounts.map(({ beat, n }) => <HotSpot key={beat.id} beat={beat} count={n} max={maxBeat} min={minBeat} selected={beatSel === beat.id} onClick={(b) => setBeatSel(beatSel === b.id ? null : b.id)} />)
               : scoped.map((c) => <CaseDot key={c.id} c={c} />)}
           </BaseMap>
+          {view === 'areas' && (
+            <div className="row small muted" style={{ marginTop: 10, gap: 6 }}>
+              <span>Fewer cases</span>
+              {['#fcae91', '#fb6a4a', '#ef3b2c', '#cb181d', '#99000d'].map((c) => <span key={c} style={{ width: 22, height: 10, background: c, borderRadius: 2 }} />)}
+              <span>More cases</span>
+              <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 6 }}><span style={{ width: 18, borderTop: '2px dashed #c8102e' }} /> Pulianthope boundary (approx.)</span>
+            </div>
+          )}
           {view === 'cases' && type === 'all' && (
             <div className="legend" style={{ marginTop: 10 }}>
               {CRIME_TYPES.map((t) => <span key={t.id} className="chip"><span className="sw" style={{ background: t.color, borderRadius: '50%' }} />{t.label}</span>)}
