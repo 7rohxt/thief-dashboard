@@ -37,7 +37,7 @@ function GlobalSearch() {
               <Avatar offender={o} size={32} />
               <span className="col" style={{ gap: 0 }}>
                 <span style={{ fontWeight: 600 }}>{o.name}</span>
-                <span className="muted small">{o.id} · {TYPE_BY_ID[o.primaryType].label} · {o.caseCount} cases · alias {o.alias}</span>
+                <span className="muted small">{o.id} · {TYPE_BY_ID[o.primaryType].label} · {o.caseCount} cases{o.alias ? ` · alias ${o.alias}` : ''}</span>
               </span>
             </a>
           ))}
